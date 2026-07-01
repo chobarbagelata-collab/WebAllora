@@ -112,9 +112,8 @@
     <!-- Gradient overlay -->
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(3,35,48,0.55) 0%, rgba(3,35,48,0.18) 42%, rgba(3,35,48,0.62) 100%); z-index:3;"></div>
     <!-- Hero content -->
-    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 80px; z-index:5; pointer-events:none;">
-
-      <h1 style="font-size:60px; font-weight:300; color:#fff; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 18px; line-height:1.1; animation:heroFadeUp 1.1s ease 0.35s both;">EXPERIENCIAS DISEÑADAS<br>A TU MEDIDA</h1>
+    <div style="{{ heroContentStyle }}">
+      <h1 style="{{ heroTitleStyle }}">EXPERIENCIAS DISEÑADAS<br>A TU MEDIDA</h1>
       <p style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.65); letter-spacing:0.12em; text-transform:uppercase; margin:0 0 52px; animation:heroFadeIn 1s ease 0.75s both;">Cada viaje, creado exclusivamente para ti</p>
       <div style="pointer-events:all; animation:heroFadeIn 1s ease 1s both;">
         <a href="https://api.whatsapp.com/send/?phone=5491131506587&amp;text=Hola%21+Me+gustar%C3%ADa+planificar+mi+viaje+personalizado&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" style="display:inline-block; border:1.5px solid rgba(255,255,255,0.65); color:#fff; padding:15px 48px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:400; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; border-radius:100px; background:transparent; transition:background 0.3s, color 0.3s;">ENCONTRÁ LA TUYA</a>
@@ -459,13 +458,20 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { slide: 0, scrolled: false, vis: {}, openFaq: null, countVal: 0, menuOpen: false };
+  state = { slide: 0, scrolled: false, vis: {}, openFaq: null, countVal: 0, menuOpen: false, winW: typeof window !== 'undefined' ? window.innerWidth : 1200 };
 
   componentDidMount() {
     // Carousel auto-play
     this.slideTimer = setInterval(() => {
       this.setState(s => ({ slide: (s.slide + 1) % 6 }));
     }, 6000);
+
+    // Resize listener
+    this.onResize = () => {
+      const winW = window.innerWidth;
+      if (winW !== this.state.winW) this.setState({ winW });
+    };
+    window.addEventListener('resize', this.onResize, { passive: true });
 
     // Nav scroll effect + trust counter trigger
     this.onScroll = () => {
@@ -542,6 +548,7 @@ class Component extends DCLogic {
     clearInterval(this.slideTimer);
     clearInterval(this.counterTimer);
     window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
     if (this.io) this.io.disconnect();
   }
 
@@ -555,7 +562,24 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const { slide, scrolled, openFaq, countVal } = this.state;
+    const { slide, scrolled, openFaq, countVal, winW } = this.state;
+    const isMobile = winW < 768;
+    const heroFontSize = isMobile ? Math.max(14, winW * 0.046) + 'px' : '60px';
+    const heroLetterSpacing = isMobile ? '0' : '0.06em';
+    const heroLineHeight = isMobile ? '1.25' : '1.1';
+    const heroPad = isMobile ? '0 20px' : '0 80px';
+    const heroTitleStyle = {
+      fontSize: heroFontSize, fontWeight: 300, color: '#fff',
+      letterSpacing: heroLetterSpacing, textTransform: 'uppercase',
+      margin: '0 0 18px', lineHeight: heroLineHeight,
+      animation: 'heroFadeUp 1.1s ease 0.35s both',
+      wordBreak: 'break-word', overflowWrap: 'break-word',
+    };
+    const heroContentStyle = {
+      position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center', textAlign: 'center',
+      padding: heroPad, zIndex: 5, pointerEvents: 'none',
+    };
     const trustCount100 = Math.min(countVal, 100) + '+';
     const trustCount20 = Math.min(Math.floor(countVal / 5), 20) + '+';
     const starCount = Math.min(Math.ceil(countVal / 20), 5);
@@ -651,6 +675,7 @@ class Component extends DCLogic {
       aWhyImg: this.a('whyus', 0.2),
       aStories: this.a('stories', 0),
       aCta: this.a('cta', 0),
+      heroTitleStyle, heroContentStyle,
       menuOpen: this.state.menuOpen,
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
