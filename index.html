@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(6px); opacity: 1; }
+    }
+    @keyframes photoStrip {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+  </style>
+</helmet>
+
+<div style="font-family:'Montserrat',sans-serif; background:#fff; min-width:1200px; overflow-x:hidden;">
+
+  <!-- ─── FIXED NAV ─── -->
+  <nav style="{{ navStyle }}">
+    <div style="display:flex; align-items:center; gap:48px; flex:1;">
+      <a href="#inicio" style="font-size:10px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.82); text-decoration:none; cursor:pointer;">INICIO</a>
+      <a href="#destinos" style="font-size:10px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.82); text-decoration:none; cursor:pointer;">DESTINOS</a>
+    </div>
+    <div style="flex:0 0 auto; display:flex; align-items:center; justify-content:center;">
+      <img src="uploads/allora-travel.png" style="height:110px; width:auto; display:block;" alt="Allöra Travel">
+    </div>
+    <div style="display:flex; align-items:center; gap:48px; flex:1; justify-content:flex-end;">
+      <a href="#historias" style="font-size:10px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.82); text-decoration:none; cursor:pointer;">HISTORIAS</a>
+      <a href="#cta" style="font-size:10px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.82); text-decoration:none; cursor:pointer;">CONTACTO</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO CAROUSEL ─── -->
+  <div id="inicio" data-screen-label="Hero" style="position:relative; height:100vh; min-height:700px; overflow:hidden; background:#032330;">
+    <img src="uploads/oliver-sjostrom-epRVcpr6yf8-unsplash.jpg" style="{{ slide0Style }}" alt="">
+    <img src="uploads/1.jpg" style="{{ slide1Style }}" alt="">
+    <img src="uploads/alex-bertha-Jyg7xHRmXiU-unsplash.jpg" style="{{ slide2Style }}" alt="">
+    <img src="uploads/christian-lambert-vmIWr0NnpCQ-unsplash.jpg" style="{{ slide3Style }}" alt="">
+    <img src="uploads/mesut-kaya-eOcyhe5-9sQ-unsplash.jpg" style="{{ slide4Style }}" alt="">
+    <img src="uploads/rayyu-maldives-lUevqgm9rec-unsplash.jpg" style="{{ slide5Style }}" alt="">
+    <!-- Gradient overlay -->
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(3,35,48,0.55) 0%, rgba(3,35,48,0.18) 42%, rgba(3,35,48,0.62) 100%); z-index:3;"></div>
+    <!-- Hero content -->
+    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 80px; z-index:5; pointer-events:none;">
+
+      <h1 style="font-size:60px; font-weight:300; color:#fff; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 18px; line-height:1.1; animation:heroFadeUp 1.1s ease 0.35s both;">EXPERIENCIAS DISEÑADAS<br>A TU MEDIDA</h1>
+      <p style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.65); letter-spacing:0.12em; text-transform:uppercase; margin:0 0 52px; animation:heroFadeIn 1s ease 0.75s both;">Cada viaje, creado exclusivamente para ti</p>
+      <div style="pointer-events:all; animation:heroFadeIn 1s ease 1s both;">
+        <a href="https://api.whatsapp.com/send/?phone=5491131506587&amp;text=Hola%21+Me+gustar%C3%ADa+planificar+mi+viaje+personalizado&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" style="display:inline-block; border:1.5px solid rgba(255,255,255,0.65); color:#fff; padding:15px 48px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:400; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; border-radius:100px; background:transparent; transition:background 0.3s, color 0.3s;">ENCONTRÁ LA TUYA</a>
+      </div>
+    </div>
+    <!-- Carousel dots -->
+    <div style="position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; gap:10px; align-items:center; z-index:10;">
+      <sc-for list="{{ dots }}" as="dot" hint-placeholder-count="4">
+        <button style="{{ dot.style }}" onClick="{{ dot.click }}"></button>
+      </sc-for>
+    </div>
+    <!-- Prev / Next arrows -->
+    <button onClick="{{ prev }}" style="position:absolute; left:28px; top:50%; transform:translateY(-50%); z-index:10; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.22); color:#fff; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button onClick="{{ next }}" style="position:absolute; right:28px; top:50%; transform:translateY(-50%); z-index:10; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.22); color:#fff; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <!-- Scroll indicator -->
+    <div style="position:absolute; bottom:44px; right:44px; z-index:10; display:flex; flex-direction:column; align-items:center; gap:10px;">
+      <div style="width:1px; height:44px; background:rgba(255,255,255,0.25); animation:scrollPulse 2s ease infinite;"></div>
+      <span style="font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.4); writing-mode:vertical-rl;">SCROLL</span>
+    </div>
+  </div>
+
+  <!-- ─── MANIFESTO ─── -->
+  <section data-anim-id="manifesto" data-screen-label="Manifesto" style="background:#F4F7F9; padding:80px 72px; text-align:center;">
+    <div style="{{ aManifesto }}">
+      <div style="display:flex; align-items:center; gap:20px; justify-content:center; margin-bottom:48px;">
+        <div style="height:1px; width:40px; background:rgba(3,35,48,0.25);"></div>
+        <span style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(3,35,48,0.4);">Nuestro enfoque</span>
+        <div style="height:1px; width:40px; background:rgba(3,35,48,0.25);"></div>
+      </div>
+      <h2 style="font-size:34px; font-weight:400; color:#032330; line-height:1.35; margin:0 0 20px; max-width:1100px; margin-left:auto; margin-right:auto; text-wrap:pretty;">La experiencia perfecta no viene en ningún catálogo.<br>La construimos juntos.</h2>
+      <p style="font-size:16px; font-weight:300; color:#6B6B6B; margin:0 auto; line-height:1.82; max-width:520px;">Cada pareja, cada historia, cada sueño es diferente. Nuestro trabajo es escuchar, entender y crear el viaje de su vida.</p>
+    </div>
+  </section>
+
+  <!-- ─── TRUST BAR ─── -->
+  <div data-anim-id="trustbar" ref="{{ trustBarRef }}" style="background:#032330; padding:32px 72px; display:flex; align-items:center; justify-content:center; gap:80px;">
+    <div style="{{ aTrust0 }}">
+      <div style="text-align:center;">
+        <div style="font-size:30px; font-weight:400; color:#fff; letter-spacing:-0.01em; font-variant-numeric:tabular-nums;">{{ trustCount100 }}</div>
+        <div style="font-size:9px; font-weight:400; color:rgba(255,255,255,0.4); margin-top:7px; letter-spacing:0.22em; text-transform:uppercase;">Experiencias</div>
+      </div>
+    </div>
+    <div style="{{ aTrust1 }}"><div style="width:1px; height:36px; background:rgba(255,255,255,0.1);"></div></div>
+    <div style="{{ aTrust2 }}">
+      <div style="text-align:center;">
+        <div style="font-size:30px; font-weight:400; color:#fff; letter-spacing:-0.01em; font-variant-numeric:tabular-nums;">{{ trustCount20 }}</div>
+        <div style="font-size:9px; font-weight:400; color:rgba(255,255,255,0.4); margin-top:7px; letter-spacing:0.22em; text-transform:uppercase;">Destinos</div>
+      </div>
+    </div>
+    <div style="{{ aTrust3 }}"><div style="width:1px; height:36px; background:rgba(255,255,255,0.1);"></div></div>
+    <div style="{{ aTrust4 }}">
+      <div style="text-align:center;">
+        <div style="font-size:20px; font-weight:400; color:#fff; letter-spacing:0.08em;">{{ trustStars }}</div>
+        <div style="font-size:9px; font-weight:400; color:rgba(255,255,255,0.4); margin-top:7px; letter-spacing:0.22em; text-transform:uppercase;">Satisfacción</div>
+      </div>
+    </div>
+    <div style="{{ aTrust5 }}"><div style="width:1px; height:36px; background:rgba(255,255,255,0.1);"></div></div>
+    <div style="{{ aTrust6 }}">
+      <div style="text-align:center;">
+        <div style="font-size:30px; font-weight:400; color:#fff; letter-spacing:-0.01em;">24/7</div>
+        <div style="font-size:9px; font-weight:400; color:rgba(255,255,255,0.4); margin-top:7px; letter-spacing:0.22em; text-transform:uppercase;">Disponibilidad</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PHOTO STRIP ─── -->
+  <div style="overflow:hidden; width:100%; background:#000; line-height:0;">
+    <div style="display:flex; gap:6px; animation:photoStrip 40s linear infinite; width:max-content;">
+      <img src="uploads/saad-khan-425b2PhNuHA-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/orva-studio-yB6WFHbkX40-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/sander-traa-vi_DqPXlN-4-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/uzuri-safaris-tanzania-Ti9XCg6QOn4-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/sayan-nath-EE03LmR1hA8-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/humphrey-m-PJT_XqdyRpA-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/jessica-kantak-bailey-xndveMC26Rc-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/saad-khan-425b2PhNuHA-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/orva-studio-yB6WFHbkX40-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/sander-traa-vi_DqPXlN-4-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/uzuri-safaris-tanzania-Ti9XCg6QOn4-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/sayan-nath-EE03LmR1hA8-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/humphrey-m-PJT_XqdyRpA-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+      <img src="uploads/jessica-kantak-bailey-xndveMC26Rc-unsplash.jpg" style="height:260px; width:auto; object-fit:cover; flex-shrink:0; display:block;">
+    </div>
+  </div>
+
+  <!-- ─── PROCESS ─── -->
+  <section data-anim-id="process" data-screen-label="Proceso" style="background:#F4F7F9; padding:96px 72px;">
+    <div style="{{ aProcess }}">
+      <div style="text-align:center; margin-bottom:64px;">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(3,35,48,0.4); margin:0 0 14px;">¿Cómo funciona?</p>
+        <h2 style="font-size:38px; font-weight:400; color:#032330; margin:0; letter-spacing:-0.02em;">Tres pasos hacia el viaje perfecto</h2>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+      <div style="{{ aProc0 }}">
+        <div style="background:#fff; padding:48px 36px; border-radius:16px; height:100%; box-sizing:border-box;">
+          <div style="font-size:56px; font-weight:200; color:rgba(3,35,48,0.22); line-height:1; margin-bottom:24px; letter-spacing:-0.04em;">01</div>
+          <h3 style="font-size:19px; font-weight:400; color:#032330; margin:0 0 14px; letter-spacing:-0.01em; text-transform:uppercase;">Nos contás</h3>
+          <p style="font-size:14px; font-weight:400; color:#6B6B6B; line-height:1.78; margin:0;">Una charla sin compromiso. Nos contás qué sueñan, qué les gusta y qué quieren vivir.</p>
+        </div>
+      </div>
+      <div style="{{ aProc1 }}">
+        <div style="background:#fff; padding:48px 36px; border-radius:16px; height:100%; box-sizing:border-box;">
+          <div style="font-size:56px; font-weight:200; color:rgba(3,35,48,0.22); line-height:1; margin-bottom:24px; letter-spacing:-0.04em;">02</div>
+          <h3 style="font-size:19px; font-weight:400; color:#032330; margin:0 0 14px; letter-spacing:-0.01em; text-transform:uppercase;">Lo diseñamos</h3>
+          <p style="font-size:14px; font-weight:400; color:#6B6B6B; line-height:1.78; margin:0;">Armamos cada detalle a medida: destinos, alojamientos, experiencias y traslados. Todo para ustedes.</p>
+        </div>
+      </div>
+      <div style="{{ aProc2 }}">
+        <div style="background:#fff; padding:48px 36px; border-radius:16px; height:100%; box-sizing:border-box;">
+          <div style="font-size:56px; font-weight:200; color:rgba(3,35,48,0.22); line-height:1; margin-bottom:24px; letter-spacing:-0.04em;">03</div>
+          <h3 style="font-size:19px; font-weight:400; color:#032330; margin:0 0 14px; letter-spacing:-0.01em; text-transform:uppercase;">Viajan tranquilos</h3>
+          <p style="font-size:14px; font-weight:400; color:#6B6B6B; line-height:1.78; margin:0;">Estamos con ustedes antes, durante y después. No desaparecemos al confirmar las reservas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DESTINATIONS ─── -->
+  <section id="destinos" data-anim-id="destinations" data-screen-label="Destinos" style="background:#fff; padding:96px 72px;">
+    <div style="{{ aDest }}">
+      <div style="text-align:center; margin-bottom:52px;">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(3,35,48,0.4); margin:0 0 14px;">Destinos</p>
+        <h2 style="font-size:38px; font-weight:400; color:#032330; margin:0; letter-spacing:-0.02em;">Cada destino, una experiencia</h2>
+      </div>
+    </div>
+    <div style="{{ aDestGrid }}">
+      <!-- Editorial grid -->
+      <div style="display:grid; grid-template-columns:58fr 42fr; grid-template-rows:280px 280px; gap:12px; margin-bottom:12px;">
+        <!-- Maldivas: spans 2 rows -->
+        <div style="grid-row:1/3; position:relative; border-radius:14px; overflow:hidden; cursor:pointer;" onClick="{{ openWAMaldivas }}">
+          <img src="uploads/shifaaz-shamoon-qtbV_8P_Ksk-unsplash.jpg" alt="Maldivas" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease;" style-hover="transform:scale(1.04)">
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(3,35,48,0.9) 0%, rgba(3,35,48,0.1) 50%, transparent 100%);"></div>
+          <div style="position:absolute; top:20px; left:20px;"><span style="display:inline-block; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); color:#fff; font-size:9px; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; padding:6px 14px; border-radius:100px; border:1px solid rgba(255,255,255,0.2);">Exótico</span></div>
+          <div style="position:absolute; bottom:0; left:0; right:0; padding:36px 40px;">
+            <h3 style="font-size:32px; font-weight:400; color:#fff; margin:0 0 8px; letter-spacing:-0.01em;">Maldivas</h3>
+            <p style="font-size:13px; font-weight:300; color:rgba(255,255,255,0.72); margin:0; letter-spacing:0.02em;">Villas privadas sobre el agua · Arrecifes de coral</p>
+          </div>
+        </div>
+        <!-- Santorini -->
+        <div style="position:relative; border-radius:14px; overflow:hidden; cursor:pointer;" onClick="{{ openWASantorini }}">
+          <img src="uploads/angelo-pantazis-h0AnGGgseio-unsplash.jpg" alt="Santorini" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease;" style-hover="transform:scale(1.05)">
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(3,35,48,0.88) 0%, transparent 60%);"></div>
+          <div style="position:absolute; top:16px; left:16px;"><span style="display:inline-block; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); color:#fff; font-size:9px; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; padding:5px 12px; border-radius:100px; border:1px solid rgba(255,255,255,0.2);">Europa</span></div>
+          <div style="position:absolute; bottom:0; left:0; right:0; padding:24px 28px;">
+            <h3 style="font-size:24px; font-weight:400; color:#fff; margin:0 0 6px; letter-spacing:-0.01em;">Santorini</h3>
+            <p style="font-size:12px; font-weight:300; color:rgba(255,255,255,0.7); margin:0;">Atardeceres sobre el Egeo</p>
+          </div>
+        </div>
+        <!-- Amalfi -->
+        <div style="position:relative; border-radius:14px; overflow:hidden; cursor:pointer;" onClick="{{ openWAAmalfi }}">
+          <img src="uploads/josh-hild-K4WXehq5Alc-unsplash.jpg" alt="Costa Amalfitana" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease;" style-hover="transform:scale(1.05)">
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(3,35,48,0.88) 0%, transparent 60%);"></div>
+          <div style="position:absolute; top:16px; left:16px;"><span style="display:inline-block; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); color:#fff; font-size:9px; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; padding:5px 12px; border-radius:100px; border:1px solid rgba(255,255,255,0.2);">Italia</span></div>
+          <div style="position:absolute; bottom:0; left:0; right:0; padding:24px 28px;">
+            <h3 style="font-size:24px; font-weight:400; color:#fff; margin:0 0 6px; letter-spacing:-0.01em;">Costa Amalfitana</h3>
+            <p style="font-size:12px; font-weight:300; color:rgba(255,255,255,0.7); margin:0;">Gastronomía y acantilados</p>
+          </div>
+        </div>
+      </div>
+      <!-- Bali full width -->
+      <div style="position:relative; height:220px; border-radius:14px; overflow:hidden; cursor:pointer;" onClick="{{ openWABali }}">
+        <img src="uploads/ishan-seefromthesky-DtWyp_4YEes-unsplash.jpg" alt="Bali" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease;" style-hover="transform:scale(1.03)">
+        <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(3,35,48,0.88) 0%, rgba(3,35,48,0.18) 55%, transparent 100%);"></div>
+        <div style="position:absolute; top:50%; left:40px; transform:translateY(-50%);">
+          <span style="display:inline-block; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); color:#fff; font-size:9px; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; padding:5px 12px; border-radius:100px; border:1px solid rgba(255,255,255,0.2); margin-bottom:10px; display:block; width:fit-content;">Asia</span>
+          <h3 style="font-size:28px; font-weight:400; color:#fff; margin:8px 0 6px; letter-spacing:-0.01em;">Bali &amp; Ubud</h3>
+          <p style="font-size:13px; font-weight:300; color:rgba(255,255,255,0.72); margin:0;">Templos, arrozales y retiros de lujo en la selva</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHY ALLÖRA ─── -->
+  <section data-anim-id="whyus" data-screen-label="Por qué Allöra" style="background:#032330; padding:96px 72px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
+      <div style="{{ aWhyText }}">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin:0 0 18px;">¿Por qué Allöra?</p>
+        <h2 style="font-size:38px; font-weight:400; color:#fff; margin:0 0 48px; letter-spacing:-0.02em; line-height:1.15;">Lo que nos hace diferentes</h2>
+        <div style="display:flex; flex-direction:column; gap:32px;">
+          <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div style="width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size:15px; font-weight:400; color:#fff; margin:0 0 8px; letter-spacing:0.01em; text-transform:uppercase;">Sin paquetes prefabricados</h3>
+              <p style="font-size:13px; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.78; margin:0;">Cada experiencia es única como la persona que la vive. No usamos moldes ni catálogos.</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div style="width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size:15px; font-weight:400; color:#fff; margin:0 0 8px; letter-spacing:0.01em; text-transform:uppercase;">Acompañamiento total</h3>
+              <p style="font-size:13px; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.78; margin:0;">Antes, durante y después del viaje. No desaparecemos al confirmar las reservas.</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:20px; align-items:flex-start;">
+            <div style="width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size:15px; font-weight:400; color:#fff; margin:0 0 8px; letter-spacing:0.01em; text-transform:uppercase;">Solo experiencias</h3>
+              <p style="font-size:13px; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.78; margin:0;">Esta es nuestra única especialidad. Eso nos permite entenderte mejor que nadie.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="{{ aWhyImg }}">
+        <div style="position:relative; height:540px; border-radius:20px; overflow:hidden;">
+          <img src="uploads/2.jpg" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center 65%; position:absolute; inset:0;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HISTORIAS ─── -->
+  <section id="historias" data-anim-id="stories" data-screen-label="Historias" style="background:#fff; padding:96px 72px;">
+    <div style="{{ aStories }}">
+      <div style="text-align:center; margin-bottom:56px;">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(3,35,48,0.4); margin:0 0 14px;">Historias reales</p>
+        <h2 style="font-size:38px; font-weight:400; color:#032330; margin:0; letter-spacing:-0.02em;">Lo que vivieron nuestros viajeros</h2>
+      </div>
+    </div>
+    <!-- Photo-card grid 2x2 -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+      <!-- Card 1 -->
+      <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(3,35,48,0.07);">
+        <div style="height:260px; overflow:hidden; position:relative;">
+          <img src="uploads/pasted-1782482503415-0.png" alt="Maldivas" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55%;">
+        </div>
+        <div style="padding:22px 24px 26px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div style="width:34px; height:34px; border-radius:50%; background:#032330; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; color:#fff; flex-shrink:0;">{{ s0.initials }}</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; color:#032330;">{{ s0.couple }}</div>
+              <div style="font-size:10px; color:rgba(3,35,48,0.38); margin-top:2px; letter-spacing:0.04em;">{{ s0.dest }} · {{ s0.nights }}</div>
+            </div>
+            <span style="margin-left:auto; font-size:11px; color:rgba(3,35,48,0.22); letter-spacing:1.5px;">★★★★★</span>
+          </div>
+          <p style="font-size:13px; font-weight:300; color:#555; line-height:1.75; margin:0; font-style:italic;">"{{ s0.text }}"</p>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(3,35,48,0.07);">
+        <div style="height:260px; overflow:hidden; position:relative;">
+          <img src="uploads/pasted-1782482509482-0.png" alt="Italia" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%;">
+        </div>
+        <div style="padding:22px 24px 26px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div style="width:34px; height:34px; border-radius:50%; background:#032330; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; color:#fff; flex-shrink:0;">{{ s1.initials }}</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; color:#032330;">{{ s1.couple }}</div>
+              <div style="font-size:10px; color:rgba(3,35,48,0.38); margin-top:2px; letter-spacing:0.04em;">{{ s1.dest }} · {{ s1.nights }}</div>
+            </div>
+            <span style="margin-left:auto; font-size:11px; color:rgba(3,35,48,0.22); letter-spacing:1.5px;">★★★★★</span>
+          </div>
+          <p style="font-size:13px; font-weight:300; color:#555; line-height:1.75; margin:0; font-style:italic;">"{{ s1.text }}"</p>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(3,35,48,0.07);">
+        <div style="height:260px; overflow:hidden; position:relative;">
+          <img src="uploads/pasted-1782482513920-0.png" alt="Bali" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%;">
+        </div>
+        <div style="padding:22px 24px 26px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div style="width:34px; height:34px; border-radius:50%; background:#032330; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; color:#fff; flex-shrink:0;">{{ s2.initials }}</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; color:#032330;">{{ s2.couple }}</div>
+              <div style="font-size:10px; color:rgba(3,35,48,0.38); margin-top:2px; letter-spacing:0.04em;">{{ s2.dest }} · {{ s2.nights }}</div>
+            </div>
+            <span style="margin-left:auto; font-size:11px; color:rgba(3,35,48,0.22); letter-spacing:1.5px;">★★★★★</span>
+          </div>
+          <p style="font-size:13px; font-weight:300; color:#555; line-height:1.75; margin:0; font-style:italic;">"{{ s2.text }}"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ─── -->
+  <section data-anim-id="faq" data-screen-label="FAQ" style="background:#F4F7F9; padding:96px 72px;">
+    <div style="max-width:800px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:56px;">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(3,35,48,0.4); margin:0 0 14px;">Preguntas frecuentes</p>
+        <h2 style="font-size:38px; font-weight:400; color:#032330; margin:0; letter-spacing:-0.02em;">Todo lo que necesitás saber</h2>
+      </div>
+      <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(3,35,48,0.06);">
+        <sc-for list="{{ faqs }}" as="faq" hint-placeholder-count="5">
+          <div style="border-bottom:1px solid rgba(3,35,48,0.05); cursor:pointer;" onClick="{{ faq.toggle }}">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:22px 32px; gap:24px;">
+              <h3 style="font-size:15px; font-weight:600; color:#032330; margin:0; letter-spacing:-0.01em; line-height:1.35;">{{ faq.q }}</h3>
+              <sc-if value="{{ faq.closed }}" hint-placeholder-val="{{ true }}">
+                <div style="width:32px; height:32px; border-radius:50%; border:1.5px solid rgba(3,35,48,0.12); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; color:rgba(3,35,48,0.4); font-weight:300; line-height:1; flex-shrink:0;">+</div>
+              </sc-if>
+              <sc-if value="{{ faq.open }}" hint-placeholder-val="{{ false }}">
+                <div style="width:32px; height:32px; border-radius:50%; background:#032330; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; color:#fff; font-weight:300; line-height:1; flex-shrink:0;">−</div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ faq.open }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:14px; font-weight:400; color:#6B6B6B; line-height:1.78; margin:0; padding:0 32px 24px;">{{ faq.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section id="cta" data-anim-id="cta" data-screen-label="CTA" style="position:relative; overflow:hidden; min-height:500px; display:flex; align-items:center; justify-content:center; background:#032330;">
+    <img src="uploads/jessica-kantak-bailey-xndveMC26Rc-unsplash.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.3;" alt="">
+    <div style="position:relative; z-index:2; text-align:center; padding:96px 72px; width:100%; max-width:860px; margin:0 auto; box-sizing:border-box;">
+      <div style="{{ aCta }}">
+        <p style="font-size:9px; font-weight:400; letter-spacing:0.32em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin:0 0 24px;">Empezá hoy</p>
+        <h2 style="font-size:52px; font-weight:400; color:#fff; letter-spacing:-0.02em; margin:0 0 20px; line-height:1.1; text-transform:uppercase;">TU PRÓXIMA EXPERIENCIA<br>EMPIEZA AQUÍ.</h2>
+      </div>
+      <div style="{{ aCtaSub }}">
+        <p style="font-size:15px; font-weight:300; color:rgba(255,255,255,0.55); margin:0 auto 52px; max-width:440px; line-height:1.78;">Primera consulta gratuita y sin compromiso.<br>Solo queremos conocer tu historia.</p>
+        <a href="https://api.whatsapp.com/send/?phone=5491131506587&amp;text=Hola%21+Me+gustar%C3%ADa+planificar+mi+viaje+personalizado&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:12px; background:#fff; color:#032330; padding:18px 48px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; border-radius:100px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.122 1.531 5.854L0 24l6.318-1.504A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.9 0-3.68-.513-5.21-1.407l-.374-.222-3.75.893.938-3.635-.245-.388A9.821 9.821 0 012.182 12c0-5.416 4.402-9.818 9.818-9.818 5.416 0 9.818 4.402 9.818 9.818 0 5.416-4.402 9.818-9.818 9.818z"/></svg>
+          ESCRIBINOS POR WHATSAPP
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer style="background:#021520; padding:36px 72px; display:flex; align-items:center; justify-content:space-between;">
+    <img src="uploads/allora-travel.png" style="height:90px; width:auto; display:block; opacity:0.6;" alt="Allöra Travel">
+    <div style="font-size:11px; color:rgba(255,255,255,0.22); letter-spacing:0.06em;">© 2026 Allöra Travel · Buenos Aires, Argentina</div>
+    <a href="https://www.instagram.com/travel.allora/" style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.18em; text-transform:uppercase; text-decoration:none;">@travel.allora</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { slide: 0, scrolled: false, vis: {}, openFaq: null, countVal: 0 };
+
+  componentDidMount() {
+    // Carousel auto-play
+    this.slideTimer = setInterval(() => {
+      this.setState(s => ({ slide: (s.slide + 1) % 6 }));
+    }, 6000);
+
+    // Nav scroll effect + trust counter trigger
+    this.onScroll = () => {
+      const scrolled = window.scrollY > 60;
+      if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+
+      // Trigger counter when trust bar enters viewport
+      if (!this.counterTimer && this.trustBarEl) {
+        const rect = this.trustBarEl.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          this.startTrustCounter();
+        }
+      }
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+
+    // Also check immediately in case trustbar is already visible
+    setTimeout(() => {
+      if (this.trustBarEl) {
+        const rect = this.trustBarEl.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          this.startTrustCounter();
+        }
+      }
+    }, 400);
+
+    // Scroll animations via IntersectionObserver
+    try {
+      this.io = new IntersectionObserver(entries => {
+        try {
+          const vis = Object.assign({}, this.state.vis);
+          let changed = false;
+          entries.forEach(e => {
+            const id = e.target && e.target.dataset && e.target.dataset.animId;
+            if (e.isIntersecting && id && !vis[id]) {
+              vis[id] = true;
+              changed = true;
+            }
+          });
+          if (changed) this.setState({ vis });
+        } catch(err) {}
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      setTimeout(() => {
+        document.querySelectorAll('[data-anim-id]').forEach(el => {
+          try { this.io && this.io.observe(el); } catch(err) {}
+        });
+      }, 150);
+    } catch(err) {}
+  }
+
+  startTrustCounter() {
+    if (this.counterTimer) return;
+    this.counterTimer = setInterval(() => {
+      this.setState(s => {
+        if (s.countVal >= 100) {
+          clearInterval(this.counterTimer);
+          this.counterTimer = null;
+          return { countVal: 100 };
+        }
+        return { countVal: s.countVal + 2 };
+      });
+    }, 16);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    try {
+      const nowVisible = this.state.vis && this.state.vis['trustbar'];
+      const wasVisible = prevState.vis && prevState.vis['trustbar'];
+      if (nowVisible && !wasVisible) this.startTrustCounter();
+    } catch(e) {}
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.slideTimer);
+    clearInterval(this.counterTimer);
+    window.removeEventListener('scroll', this.onScroll);
+    if (this.io) this.io.disconnect();
+  }
+
+  a(id, delay = 0) {
+    const on = !!this.state.vis[id];
+    return {
+      opacity: on ? 1 : 0,
+      transform: on ? 'translateY(0)' : 'translateY(28px)',
+      transition: `opacity 0.9s ease ${delay}s, transform 0.9s ease ${delay}s`,
+    };
+  }
+
+  renderVals() {
+    const { slide, scrolled, openFaq, countVal } = this.state;
+    const trustCount100 = Math.min(countVal, 100) + '+';
+    const trustCount20 = Math.min(Math.floor(countVal / 5), 20) + '+';
+    const starCount = Math.min(Math.ceil(countVal / 20), 5);
+    const trustStars = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
+    const NUM = 6;
+
+    const makeSlide = (i) => ({
+      position: 'absolute', inset: 0,
+      width: '100%', height: '100%', objectFit: 'cover',
+      opacity: i === slide ? 1 : 0,
+      transition: 'opacity 1.6s ease',
+      zIndex: i === slide ? 2 : 1,
+    });
+    const slide0Style = makeSlide(0);
+    const slide1Style = makeSlide(1);
+    const slide2Style = makeSlide(2);
+    const slide3Style = makeSlide(3);
+    const slide4Style = makeSlide(4);
+    const slide5Style = makeSlide(5);
+
+    const dots = Array.from({ length: NUM }, (_, i) => ({
+      style: {
+        width: i === slide ? 28 : 8, height: 8, borderRadius: 4,
+        background: i === slide ? '#ffffff' : 'rgba(255,255,255,0.28)',
+        transition: 'all 0.4s ease',
+        cursor: 'pointer', border: 'none', padding: 0, outline: 'none',
+        display: 'block', flexShrink: 0,
+      },
+      click: () => this.setState({ slide: i }),
+    }));
+
+    const navStyle = {
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      display: 'flex', alignItems: 'center', padding: '0 72px', height: '80px',
+      background: scrolled ? 'rgba(3,35,48,0.97)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(20px)' : 'none',
+      WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+      transition: 'background 0.5s ease, box-shadow 0.5s ease',
+      boxShadow: scrolled ? '0 1px 0 rgba(255,255,255,0.05)' : 'none',
+    };
+
+    const baseImgStyle = { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' };
+    const stories = [
+      {
+        couple: 'Juli & Juan', dest: 'Maldivas', nights: '10 noches', initials: 'J',
+        text: 'Nos ayudaron a organizar nuestra luna de miel y fue mucho más fácil de lo que imaginábamos. Teníamos mil ideas y no sabíamos por dónde empezar. En la primera charla entendieron perfecto lo que buscábamos y nos armaron un viaje increíble. Todo salió tal cual lo habíamos soñado.',
+        img: 'uploads/pasted-1782482503415-0.png',
+        imgStyle: Object.assign({}, baseImgStyle, { objectPosition: 'center 35%' }),
+      },
+      {
+        couple: 'Belu & Juan Cruz', dest: 'Costa Amalfitana', nights: '12 noches', initials: 'B',
+        text: 'Lo que más nos gustó fue el acompañamiento. Desde el primer momento nos escucharon, nos propusieron opciones que realmente tenían sentido para nosotros y estuvieron atentos durante todo el viaje. Nos sentimos súper tranquilos sabiendo que había alguien detrás de todo.',
+        img: 'uploads/pasted-1782482509482-0.png',
+        imgStyle: Object.assign({}, baseImgStyle, { objectPosition: 'center 20%' }),
+      },
+      {
+        couple: 'Vicky & Manuel', dest: 'Bali & Ubud', nights: '10 noches', initials: 'V',
+        text: 'Habíamos pasado semanas buscando destinos para nuestra luna de miel y cada vez estábamos más confundidos. Cuando hablamos con ellos todo se ordenó. Nos ayudaron a elegir, diseñaron el viaje a medida y se ocuparon de cada detalle. Fue una experiencia espectacular.',
+        img: 'uploads/pasted-1782482513920-0.png',
+        imgStyle: Object.assign({}, baseImgStyle, { objectPosition: 'center center' }),
+      },
+
+    ];
+
+    const rawFaqs = [
+      { q: '¿Con cuánta anticipación hay que empezar?', a: 'Lo ideal es entre 3 y 6 meses antes del viaje. Para destinos de alta demanda como Maldivas o Santorini, cuanto antes mejor. Aunque si el tiempo es ajustado, también podemos ayudarte.' },
+      { q: '¿Trabajan con destinos internacionales?', a: 'Sí, diseñamos experiencias en todo el mundo: Maldivas, Europa, Asia, el Caribe, Patagonia y más. Donde imaginen ir, nosotros lo organizamos.' },
+      { q: '¿Qué pasa si queremos cambiar algo del itinerario?', a: 'El itinerario es una guía, no una regla. Siempre hay flexibilidad para ajustar antes o durante el viaje.' },
+      { q: '¿Trabajan con alojamientos boutique y villas privadas?', a: 'Sí. Desde villas privadas y hoteles boutique hasta lodges de lujo. La clave es que el alojamiento encaje con lo que buscan, no con lo que tenemos disponible.' },
+      { q: '¿La primera consulta tiene costo?', a: 'No. La primera charla es completamente gratuita y sin compromiso. Solo queremos conocer tu historia.' },
+    ];
+
+    const faqs = rawFaqs.map((f, i) => ({
+      ...f,
+      open: openFaq === i,
+      closed: openFaq !== i,
+      toggle: () => this.setState({ openFaq: openFaq === i ? null : i }),
+    }));
+
+    return {
+      navStyle, slide0Style, slide1Style, slide2Style, slide3Style, slide4Style, slide5Style, dots,
+      prev: () => this.setState(s => ({ slide: (s.slide - 1 + NUM) % NUM })),
+      next: () => this.setState(s => ({ slide: (s.slide + 1) % NUM })),
+      stories, faqs,
+      aManifesto: this.a('manifesto', 0),
+      aProcess: this.a('process', 0),
+      aProc0: this.a('process', 0),
+      aProc1: this.a('process', 0.15),
+      aProc2: this.a('process', 0.3),
+      aDest: this.a('destinations', 0),
+      aDestGrid: this.a('destinations', 0.15),
+      aWhyText: this.a('whyus', 0),
+      aWhyImg: this.a('whyus', 0.2),
+      aStories: this.a('stories', 0),
+      aCta: this.a('cta', 0),
+      trustBarRef: el => { this.trustBarEl = el; },
+      s0: stories[0], s1: stories[1], s2: stories[2],
+      openWA: () => window.open('https://api.whatsapp.com/send/?phone=5491131506587&text=Hola%21+Me+gustar%C3%ADa+planificar+mi+viaje+personalizado&type=phone_number&app_absent=0', '_blank'),
+      openWAMaldivas: () => window.open('https://api.whatsapp.com/send/?phone=5491131506587&text=Hola%21+Me+gustar%C3%ADa+consultar+sobre+un+viaje+a+Maldivas&type=phone_number&app_absent=0', '_blank'),
+      openWASantorini: () => window.open('https://api.whatsapp.com/send/?phone=5491131506587&text=Hola%21+Me+gustar%C3%ADa+consultar+sobre+un+viaje+a+Santorini%2C+Grecia&type=phone_number&app_absent=0', '_blank'),
+      openWAAmalfi: () => window.open('https://api.whatsapp.com/send/?phone=5491131506587&text=Hola%21+Me+gustar%C3%ADa+consultar+sobre+un+viaje+a+la+Costa+Amalfitana%2C+Italia&type=phone_number&app_absent=0', '_blank'),
+      openWABali: () => window.open('https://api.whatsapp.com/send/?phone=5491131506587&text=Hola%21+Me+gustar%C3%ADa+consultar+sobre+un+viaje+a+Bali+y+Ubud%2C+Indonesia&type=phone_number&app_absent=0', '_blank'),
+      trustCount100, trustCount20, trustStars,
+      aCtaSub: this.a('cta', 0.18),
+      aTrust0: this.a('trustbar', 0),
+      aTrust1: this.a('trustbar', 0.08),
+      aTrust2: this.a('trustbar', 0.16),
+      aTrust3: this.a('trustbar', 0.24),
+      aTrust4: this.a('trustbar', 0.32),
+      aTrust5: this.a('trustbar', 0.40),
+      aTrust6: this.a('trustbar', 0.48),
+    };
+  }
+}
+</script>
+</body>
+</html>
